@@ -11,8 +11,18 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+    - name: Build and push
+      uses: docker/build-push-action@v3
+      with:
+       context: .
+       platforms: linux/amd64,linux/arm64
+       push: true
+       tags: |
+            maikell/certbot-dynu:latest
+            maikell/certbot-dynu:1.0.0
+            ghcr.io/maikell/cerbot-dynu:latest
+            ghcr.io/maikell/certbot-dynu:1.0.0
