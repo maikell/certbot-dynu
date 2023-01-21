@@ -7,13 +7,13 @@ name: Docker
 
 on:
   schedule:
-    - cron: '34 15 * * *'
+    - cron: '37 12 * * *'
   push:
-    branches: [ "main" ]
+    branches: [ "master" ]
     # Publish semver tags as releases.
-    tags: [ 'latest' ]
+    tags: [ 'v*.*.*' ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "master" ]
 
 env:
   # Use docker.io for Docker Hub if empty
@@ -76,11 +76,7 @@ jobs:
         with:
           context: .
           push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
-          file: ./Dockerfile 
-          tags: |
-            maikell/certbot-dynu:latest
-
-
